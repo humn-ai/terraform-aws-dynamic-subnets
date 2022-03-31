@@ -52,7 +52,7 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_route" "public" {
-  count                  = local.public_route_expr_enabled && var.igw_id == "" ? 0 : local.enabled_count
+  count                  = local.public_route_expr_enabled || var.igw_id == "" ? 0 : local.enabled_count
   route_table_id         = join("", aws_route_table.public.*.id)
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = var.igw_id
