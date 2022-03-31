@@ -16,6 +16,7 @@ locals {
   public_route_expr_enabled  = local.enabled && signum(length(var.vpc_default_route_table_id)) == 1
   public_network_acl_enabled = local.enabled && signum(length(var.public_network_acl_id)) == 0 ? 1 : 0
   vpc_default_route_table_id = local.enabled ? signum(length(var.vpc_default_route_table_id)) : 0
+  public_newbits             = var.desired_newbits == 0 ? ceil(log(local.public_subnet_count * 2, 2)) : var.desired_newbits
 }
 
 resource "aws_subnet" "public" {
@@ -25,7 +26,7 @@ resource "aws_subnet" "public" {
 
   cidr_block = cidrsubnet(
     signum(length(var.cidr_block)) == 1 ? var.cidr_block : join("", data.aws_vpc.default.*.cidr_block),
-    ceil(log(local.public_subnet_count * 2, 2)),
+    local.public_newbits,
     local.public_subnet_count + count.index
   )
 
