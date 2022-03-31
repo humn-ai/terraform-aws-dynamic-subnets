@@ -30,6 +30,13 @@ variable "cidr_block" {
   description = "Base CIDR block which will be divided into subnet CIDR blocks (e.g. `10.0.0.0/16`)"
 }
 
+variable "desired_newbits" {
+  type        = string
+  description = "cidrsubnet calculates a subnet address within given IP network address prefix. Defaults to 0, if so, will dynamically calculate based on available AZ's"
+}
+
+var.desired_newbits
+
 variable "availability_zones" {
   type        = list(string)
   description = "List of Availability Zones where subnets will be created"
