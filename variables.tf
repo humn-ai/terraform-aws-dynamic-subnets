@@ -31,11 +31,10 @@ variable "cidr_block" {
 }
 
 variable "desired_newbits" {
-  type        = string
+  type        = number
   description = "cidrsubnet calculates a subnet address within given IP network address prefix. Defaults to 0, if so, will dynamically calculate based on available AZ's"
+  default     = 0
 }
-
-var.desired_newbits
 
 variable "availability_zones" {
   type        = list(string)
